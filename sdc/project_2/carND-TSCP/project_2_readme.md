@@ -14,8 +14,8 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./project_2_class_breakdown_by_set.png "Visualization"
-[image2_before]: ./before_pipeline.jpg "before pipeline"
-[image2_after]: ./after_pipeline.jpg "after pipeline"
+[image2_before]: ./before_pipeline.png "before pipeline"
+[image2_after]: ./after_pipeline.png "after pipeline"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [image4]: ./from_web/german_50.jpg "Traffic Sign 1"
 [image5]: ./from_web/german_bumpy_road.jpg "Traffic Sign 2"
@@ -23,17 +23,9 @@ The goals / steps of this project are the following:
 [image7]: ./from_web/german_roundabout_mandatory.jpg "Traffic Sign 4"
 [image8]: ./from_web/german_wild_animals_Crossing.jpg "Traffic Sign 5"
 
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
-
----
-###Writeup / README
-
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
 You're reading it! and here is a link to my [project code](https://github.com/DrClick/SDC/blob/master/sdc/project_2/carND-TSCP/Traffic_Sign_Classifier-Copy2.ipynb)
 
-###Data Set Summary & Exploration
+****Data Set Summary & Exploration
 
 * The size of training set is 115430
 * The size of the validation set is 4410
@@ -47,23 +39,22 @@ Here is an exploratory visualization of the data set showing class representatio
 
 ![alt text][image1]
 
-###Design and Test a Model Architecture
-
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+***Design and Test a Model Architecture
 
 As a first step, I decided to try and balance underrepresented classes by upsampling them randomly and applying a small rotation to the images to create new samples. I then corrected the image for Y channel as a lot of images were two dark for even human readability. I then applied Contrast Limited Adaptive Histogram Equalization and finally normalized the data for zero mean and values between small values 
 
-
-####before image
-![alt text][image2_before]
-
-#after image
-![alt text][image2_after]
-
 Number of training examples after augmentation is = 115430
 
+****before images
+![alt text][image2_before]
 
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+****after images
+![alt text][image2_after]
+
+
+
+
+***2. Model Architecture
 
 My final model consisted of the following layers:
 
