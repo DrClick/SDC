@@ -59,22 +59,37 @@ Number of training examples after augmentation is = 115430
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+|:---------------------:|:---------------------------------------------:|
+|Layer 1----------------------------------------|
+| Input         		     | 32x32x3 RGB image   							| 
+| Convolution 3x3     	| 1x1 stride, valid padding, outputs 30x30x16 	|
+| RELU	|	|
+| Max pooling	      	  | 2x2 stride,  outputs 15x15x16 				|
+| Dropout | .75 keep training only| 
+|Layer 2----------------------------------------|
+| Convolution 3x3	     | 1x1 stride, valid padding, outputs 13x13x32   |
+| RELU||
+| Max pooling          | 2x2 stride, outputs 6x6x32   |
+| Dropout | .75 keep training only| 
+|Layer 3----------------------------------------|
+| flatten              | outputs 1152|
+| Layer 4----------------------------------------|
+| Fully connected		| outputs 120        									|
+| RELU|
+| Dropout | .75 keep training only| 
+| Layer 5----------------------------------------|
+| Fully connected		| outputs 43        									|
+| RELU|
+| Dropout | .75 keep training only| 
+| Softmax				|      									|
+
+| L2 regularization for each fully connected layer and bias|
  
 
 
 ####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+To train the model, I used a momentum optimizer, with a batch size of 128 over 50 epochs. 
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
@@ -84,30 +99,15 @@ My final model results were:
 * test set accuracy of ?
 
 If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+I started with the base lenet architecture and realized I needed a bit more. I encrased the number of convolutions significantly, added more neurons to the fully connected layers and added dropout. Additionally I went with a progressive learning rate. The dropout layers really helped to learn redundate representations and combat overfitting. I basically started with lenet and tweaked it with experience and intuition
 
 ###Test a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
 Here are five German traffic signs that I found on the web:
 
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
 ![alt text][image7] ![alt text][image8]
-
-The first image might be difficult to classify because ...
-
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
