@@ -6,7 +6,6 @@ import shutil
 
 import numpy as np
 import socketio
-import eventlet
 import eventlet.wsgi
 from PIL import Image
 from flask import Flask
@@ -44,7 +43,7 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 15
 controller.set_desired(set_speed)
 
 
@@ -59,13 +58,26 @@ def telemetry(sid, data):
         speed = data["speed"]
         # The current image from the center camera of the car
         imgString = data["image"]
+
+
         image = Image.open(BytesIO(base64.b64decode(imgString)))
-        image_array = np.asarray(image)
+
+
+        # here I need to cut the image down to what the model expects since we arent using
+        # a lambda layer
+        image_array = np.asarray(image)[60:140,:, :]
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
 
-        print(steering_angle, throttle)
+        # since i am only really focusing on steering, apply a hueristic to apply throttle. If turning,
+        # only give it a 10/th of the throttle. If really turning and going fast, break
+        adaptive_throttle = throttle if float(speed) < 20 else throttle/10
+        if abs(steering_angle) > .3 and float(speed) > 20:
+            adaptive_throttle = -.1
+        throttle = throttle if abs(steering_angle) < .02  else  adaptive_throttle
+
+        # print(steering_angle, throttle)
         send_control(steering_angle, throttle)
 
         # save frame
