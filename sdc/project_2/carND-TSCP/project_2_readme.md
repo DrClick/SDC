@@ -17,13 +17,13 @@ The goals / steps of this project are the following:
 [image2_before]: ./before_pipeline.png "before pipeline"
 [image2_after]: ./after_pipeline.png "after pipeline"
 [image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./from_web/german_50.jpg "[2] Speed limit (50km/h)"
+[image4]: ./from_web/german_50.jpg "[2] Speed limit (50km/h)
 [image5]: ./from_web/german_bumpy_road.jpg "[22] Bumpy road"
 [image6]: ./from_web/german_no_passing.jpg "[9] No passing"
 [image7]: ./from_web/german_roundabout_mandatory.jpg "[40] Roundabout mandatory"
 [image8]: ./from_web/german_wild_animals_Crossing.jpg "[31] Wild animals crossing"
 
-You're reading it! and here is a link to my [project code](https://github.com/DrClick/SDC/blob/master/sdc/project_2/carND-TSCP/Traffic_Sign_Classifier.ipynb)
+You're reading it! and here is a link to my [project code](https://github.com/DrClick/SDC/blob/master/sdc/project_2/carND-TSCP/Traffic_Sign_Classifier-Copy2.ipynb)
 
 ****Data Set Summary & Exploration
 
