@@ -129,7 +129,10 @@ Generating the output image is simply creating a polygon to fit the curves of th
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/EedjZb1Q5cs" frameborder="0" allowfullscreen></iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=EedjZb1Q5cs
+" target="_blank"><img src="http://img.youtube.com/vi/EedjZb1Q5cs/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="800" border="0" /></a>
+
 
 ---
 
