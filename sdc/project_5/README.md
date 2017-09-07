@@ -70,9 +70,9 @@ Ultimately I searched on five scales using HLS L-channel HOG features plus LS an
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=oo85prdR3PA
-" target="_blank"><img src="http://img.youtube.com/vi/o85prdR3PA/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="800" border="0" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=wo85prdR3PA
+" target="_blank"><img src="http://img.youtube.com/vi/wo85prdR3PA/0.jpg" 
+alt="" width="800" border="0" /></a>
 
 
 
@@ -117,7 +117,7 @@ To be trulely useful, car not a car, would hve to be trained for all otehr objec
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=OcFY8DKpTGc
 " target="_blank"><img src="http://img.youtube.com/vi/OcFY8DKpTGc/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="800" border="0" /></a>
+alt="" width="800" border="0" /></a>
 
 
 
