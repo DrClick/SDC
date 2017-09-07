@@ -1,17 +1,7 @@
 Vehicle Detection Project (CAR / NOT A CAR)
 ----------------------
 
-<table>
-  <tr>
-    <td colspan="2">CAR / NOT A CAR</td>
-  </tr>
-  <tr>
-    <td><img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/r8.jpg" style="height:100px"/></td>
-    <td><img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/hot_dog.png" style="height:100px"/></td>
-  </tr>
-</table>
-
-
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/car_and_not_a_car.png"/>
 
 The goals / steps of this project are the following:
 
@@ -26,41 +16,54 @@ The goals / steps of this project are the following:
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`). 
+The training data for my classifier came from [cars](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [not a car](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip), all of which are normalized to 64x64px images. No pre-processing is done before the pipeline.
 
 
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+<table style="margin: 0 auto 0 auto;">
+  <tr>
+    <td colspan="2">CAR / NOT A CAR</td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/output_images/example_car.png"></td>
+    <td><img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/output_images/example_notacar.png"></td>
+  </tr>
+</table>
 
-![alt text][image1]
+
+
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
+Here is an example using the `HLS` color space and HOG parameters of `orientations=9`, `pixels_per_cell=(4, 4)` and `cells_per_block=(2, 2)`:
 
 
-![alt text][image2]
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/hog_of_car_and_not_a_car.png">
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I tried various combinations of parameters and eventually decided on this combination as it seems to give the best results empericaly to my classifier and the final detection. There is plenty of room for further research / literature review in this area.
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a rbf SVM using an an `auto` Gamma and C=10 which I found using Grid search. Which you can find in cells 8-15. The accuracty of my classifer is 98.6% and here are some example predictions:
 
-###Sliding Window Search
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/predictions.png">
+### Sliding Window Search
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+I created scaled images to try and detect the cars as early as possible. Because this technique is slow, I only searched the right half of the image for this project (Clearly, this can be expanded for a real implementation. My windows varried in size from 256px to 64px. For each window, I would extract the image, and rescale to 64x64px and run in through the featurizer/predict pipeline in parallel. 
 
-![alt text][image3]
+Here is the overlay of all of my search windows and the results of a raw search on an image.
+
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/search_boxes.png">
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on five scales using HLS L-channel HOG features plus LS and SV histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
-![alt text][image4]
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/detected_cars.png">
 ---
 
 ### Video Implementation
@@ -71,19 +74,20 @@ Here's a [link to my video result](./project_video.mp4)
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+In order to filter false positives and to create a smoother bounding box. I took several steps.
+1. Created a heatmap of the detected windows. Where each window adds "heat" to the pixels it covers
+2. Combine the last 3 frames to get the combined heat over three frames
+3. Threshold this heatmap imperically at 20 (meaning, it would take a total of 20 windows over 3 frames to register as a car.)
+4. Use `scipy.ndimage.measurements.label` to extract lables and bounding boxes for the "islands" of pixels in the heatmap (where each island reprsents a car)
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+Here are examples of the steps:
+* Heatmap: You can see the region for the two cars distinctly
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/heatmap.png">
+Inspecting this histogram of the heatmap is the basis for my `20` threshold for heat
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/histogram_heatmap.png">
+* Thresholding heatmap
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/heatmap_thresholding.png">
 
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
 
 
 
@@ -93,7 +97,10 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Much could be done. In order for this system to be useful in realtime. It has to be completely overhauled. I think is was a valuable exercise to see where we have come from as these techniques are widely known and not state of the art. To be trulely useful, car not a car, would hve to be trained for all otehr objects of interest and would not work in real time. If more time permitted, I would have liked to experiment in that field and I will probably revisit this and other projects! All of these projects have been implemented in my own self driving car RC car project which you can see whippig around my office here: 
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=EedjZb1Q5cs
+" target="_blank"><img src="http://img.youtube.com/vi/OcFY8DKpTGc/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="800" border="0" /></a>
 
 
