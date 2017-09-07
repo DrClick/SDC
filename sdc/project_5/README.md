@@ -70,8 +70,8 @@ Ultimately I searched on five scales using HLS L-channel HOG features plus LS an
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=olke-bTAEr8
-" target="_blank"><img src="http://img.youtube.com/vi/olke-bTAEr8/0.jpg" 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=oo85prdR3PA
+" target="_blank"><img src="http://img.youtube.com/vi/o85prdR3PA/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="800" border="0" /></a>
 
 
@@ -98,10 +98,26 @@ Inspecting this histogram of the heatmap is the basis for my `20` threshold for 
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Much could be done. In order for this system to be useful in realtime. It has to be completely overhauled. I think is was a valuable exercise to see where we have come from as these techniques are widely known and not state of the art. To be trulely useful, car not a car, would hve to be trained for all otehr objects of interest and would not work in real time. If more time permitted, I would have liked to experiment in that field and I will probably revisit this and other projects! All of these projects have been implemented in my own self driving car RC car project which you can see whippig around my office here: 
+Much could be done. In order for this system to be useful in realtime. It has to be completely overhauled. I think is was a valuable exercise to see where we have come from as these techniques are widely known and not state of the art. 
+
+The real question I have is, what does my classifier to do with this:
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/hot_dog_car.jpg">
+
+lets find out:
+
+<img src="https://raw.githubusercontent.com/DrClick/SDC/master/sdc/project_5/resources/prediction_hot_dog_car.png">
+
+. . .
+
+
+To be trulely useful, car not a car, would hve to be trained for all otehr objects of interest and would not work in real time. If more time permitted, I would have liked to experiment in that field and I will probably revisit this and other projects! All of these projects have been implemented in my own self driving car RC car project which you can see whippig around my office here:
+
+
+
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=OcFY8DKpTGc
 " target="_blank"><img src="http://img.youtube.com/vi/OcFY8DKpTGc/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="800" border="0" /></a>
+
 
 
